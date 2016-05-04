@@ -1,6 +1,7 @@
 import components.TableCalendarRenderer;
 import service.MapCalendarDaoImpl;
 import service.CalendarService;
+import service.SQLiteCalendarDaoImpl;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -45,7 +46,7 @@ public class CalendarGUI {
         areaToSave = new JTextArea(1, 30);
         monthName = new JLabel();
         noteFromDay = new JLabel("<Notatka dnia>");
-        cs = new CalendarService(new MapCalendarDaoImpl());
+        cs = new CalendarService(new SQLiteCalendarDaoImpl());
         dtm = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int mColIndex) {
                 return false;
