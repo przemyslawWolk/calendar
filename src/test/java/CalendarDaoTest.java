@@ -4,26 +4,19 @@ import service.ICalendarDao;
 import service.SQLiteCalendarDaoImpl;
 
 public class CalendarDaoTest {
-
     private static final String FIRST_KEY = "Maj 2016 Czw 19";
     private static final String FIRST_VALUE = "przykladowa notateczka 1";
+    private static final String FIRST_UPDATE = "zmieniona notateczka 1";
+
     private static final String SECOND_KEY = "Maj 2016 Pt 27";
     private static final String SECOND_VALUE = "przykladowa notateczka 2";
+    private static final String SECOND_UPDATE = "zmieniona notateczka 2";
+
     private static final String THIRD_KEY = "Maj 2016 Pt 6";
     private static final String THIRD_VALUE = "przykladowa notateczka 3";
-
-    private static final String FIRST_UPDATE = "zmieniona notateczka 1";
-    private static final String SECOND_UPDATE = "zmieniona notateczka 2";
     private static final String THIRD_UPDATE = "zmieniona notateczka 3";
-    private static ICalendarDao dao;
 
-/*
-    public static void main(String[] args) {
-        createReadTest();
-        updateTest();
-        deleteTest();
-    }
-*/
+    private static ICalendarDao dao;
 
     @Before
     public void setUp() {
@@ -35,7 +28,6 @@ public class CalendarDaoTest {
 
     @Test
     public void createReadTest() {
-        setUp();
 
         String firstResult = dao.read(FIRST_KEY);
 
@@ -54,7 +46,6 @@ public class CalendarDaoTest {
 
     @Test
     public void updateTest() {
-        setUp();
 
         dao.update(FIRST_KEY, FIRST_UPDATE);
         dao.update(SECOND_KEY, SECOND_UPDATE);
@@ -74,7 +65,6 @@ public class CalendarDaoTest {
 
     @Test
     public void deleteTest() {
-        setUp();
 
         dao.delete(FIRST_KEY);
         dao.delete(SECOND_KEY);

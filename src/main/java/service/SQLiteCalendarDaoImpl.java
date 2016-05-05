@@ -27,20 +27,22 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
         } catch (SQLException e) {
             System.err.println("Blad przy tworzeniu tabeli " + e.getMessage());
         }
-        dropTables();
+        dropTables(true);
         createTables();
     }
 
-    private boolean dropTables() {
-
-        String dropTablesQuery = "DROP TABLE notes";
-        try {
-            stat.execute(dropTablesQuery);
-        } catch (SQLException e) {
-            System.err.println("Blad przy usuwaniu tabeli " + e.getMessage());
+    private boolean dropTables(boolean enable) {
+        if (enable) {
+            String dropTablesQuery = "DROP TABLE notes";
+            try {
+                stat.execute(dropTablesQuery);
+            } catch (SQLException e) {
+                System.err.println("Blad przy usuwaniu tabeli " + e.getMessage());
+            }
+            return false;
+        } else {
             return false;
         }
-        return false;
     }
 
     public boolean createTables() {
@@ -87,7 +89,7 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
     public void update(String keyDate, String valueNote) {
         try {
             PreparedStatement prepStmt = conn.prepareStatement(
-                    "UPDATE notes SET note='" + valueNote +"' WHERE date='" + keyDate + "'");
+                    "UPDATE notes SET note='" + valueNote + "' WHERE date='" + keyDate + "'");
             prepStmt.execute();
         } catch (SQLException e) {
             System.err.println("Blad przy updatowaniu " + e.getSQLState());
@@ -98,7 +100,7 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
     public void delete(String keyDate) {
         try {
             PreparedStatement prepStmt = conn.prepareStatement(
-                    "DELETE FROM notes WHERE date='" + keyDate +"'");
+                    "DELETE FROM notes WHERE date='" + keyDate + "'");
             prepStmt.execute();
         } catch (SQLException e) {
             System.err.println("Blad przy updatowaniu " + e.getSQLState());
