@@ -2,7 +2,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses(CalendarDaoTest.class)
+@Suite.SuiteClasses(AbstractCalendarDaoTest.class)
 
 public class JunitTestSuite {
 }
