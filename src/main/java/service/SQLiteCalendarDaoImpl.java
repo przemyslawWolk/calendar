@@ -1,6 +1,8 @@
 package service;
 
 
+import models.CalendarNote;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -58,7 +60,7 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
     }
 
     @Override
-    public void create(String keyDate, String valueNote) {
+    public void create(CalendarNote calendarNote) {
         try {
             PreparedStatement prepStmt = conn.prepareStatement(
                     "insert into notes values (?, ?);");
@@ -71,7 +73,7 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
     }
 
     @Override
-    public String read(String keyDate) {
+    public CalendarNote read(String keyDate) {
         String note = "";
         try {
             ResultSet result = stat.executeQuery("SELECT * FROM notes WHERE date='" + keyDate + "'");
@@ -86,7 +88,7 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
     }
 
     @Override
-    public void update(String keyDate, String valueNote) {
+    public void update(CalendarNote calendarNote) {
         try {
             PreparedStatement prepStmt = conn.prepareStatement(
                     "UPDATE notes SET note='" + valueNote + "' WHERE date='" + keyDate + "'");
@@ -97,7 +99,7 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
     }
 
     @Override
-    public void delete(String keyDate) {
+    public void delete(CalendarNote calendarNote) {
         try {
             PreparedStatement prepStmt = conn.prepareStatement(
                     "DELETE FROM notes WHERE date='" + keyDate + "'");
