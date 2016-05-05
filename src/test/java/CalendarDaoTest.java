@@ -1,3 +1,6 @@
+import org.junit.Before;
+import org.junit.Test;
+import service.ICalendarDao;
 import service.SQLiteCalendarDaoImpl;
 
 public class CalendarDaoTest {
@@ -12,18 +15,27 @@ public class CalendarDaoTest {
     private static final String FIRST_UPDATE = "zmieniona notateczka 1";
     private static final String SECOND_UPDATE = "zmieniona notateczka 2";
     private static final String THIRD_UPDATE = "zmieniona notateczka 3";
+    private static ICalendarDao dao;
 
+/*
     public static void main(String[] args) {
         createReadTest();
         updateTest();
         deleteTest();
     }
+*/
 
-    private static void createReadTest() {
-        SQLiteCalendarDaoImpl dao = new SQLiteCalendarDaoImpl();
+    @Before
+    public void setUp() {
+        dao = new SQLiteCalendarDaoImpl();
         dao.create(FIRST_KEY, FIRST_VALUE);
         dao.create(SECOND_KEY, SECOND_VALUE);
         dao.create(THIRD_KEY, THIRD_VALUE);
+    }
+
+    @Test
+    public void createReadTest() {
+        setUp();
 
         String firstResult = dao.read(FIRST_KEY);
 
@@ -40,12 +52,10 @@ public class CalendarDaoTest {
         System.out.println("TEST READ PASSED");
     }
 
-    private static void updateTest() {
-        SQLiteCalendarDaoImpl dao = new SQLiteCalendarDaoImpl();
-        dao.create(FIRST_KEY, FIRST_VALUE);
-        dao.create(SECOND_KEY, SECOND_VALUE);
-        dao.create(THIRD_KEY, THIRD_VALUE);
-        
+    @Test
+    public void updateTest() {
+        setUp();
+
         dao.update(FIRST_KEY, FIRST_UPDATE);
         dao.update(SECOND_KEY, SECOND_UPDATE);
         dao.update(THIRD_KEY, THIRD_UPDATE);
@@ -62,25 +72,24 @@ public class CalendarDaoTest {
         System.out.println("TEST UPDATE PASSED");
     }
 
-    private static void deleteTest() {
-        SQLiteCalendarDaoImpl dao = new SQLiteCalendarDaoImpl();
-        dao.create(FIRST_KEY, FIRST_VALUE);
-        dao.create(SECOND_KEY, SECOND_VALUE);
-        dao.create(THIRD_KEY, THIRD_VALUE);
+    @Test
+    public void deleteTest() {
+        setUp();
 
         dao.delete(FIRST_KEY);
         dao.delete(SECOND_KEY);
         dao.delete(THIRD_KEY);
 
         String firstResult = dao.read(FIRST_KEY);
-        assert !firstResult.equals(FIRST_VALUE);
+        assert !firstResult.equals(FIRST_UPDATE);
 
         String secondResult = dao.read(SECOND_KEY);
-        assert !secondResult.equals(SECOND_VALUE);
+        assert !secondResult.equals(SECOND_UPDATE);
 
         String thirdResult = dao.read(THIRD_KEY);
-        assert !thirdResult.equals(THIRD_VALUE);
+        assert !thirdResult.equals(THIRD_UPDATE);
 
         System.out.println("TEST DELETE PASSED");
     }
 }
+
