@@ -1,8 +1,10 @@
 package service;
 
+import models.CalendarNote;
+
 public interface ICalendarDao {
-    void create(String keyDate, String valueNote);
-    String read(String keyDate);
-    void update(String keyDate, String valueNote);
-    void delete(String keyDate);
+    void create(CalendarNote calendarNote);
+    CalendarNote read(String keyDate);
+    void update(CalendarNote calendarNote);
+    void delete(CalendarNote calendarNote);
 }
