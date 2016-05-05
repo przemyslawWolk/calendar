@@ -23,13 +23,13 @@ import java.util.Calendar;
 public class CalendarGUI {
     JFrame window;
     JPanel panelNorth, panelCenter, panelSouth;
-    JButton buttonNext, buttonPrev, buttonSave, buttonDelete;
+    JButton buttonNext, buttonPrev, buttonSave, buttonDelete, buttonUpdate;
     JTextArea areaToSave;
     JLabel monthName, noteFromDay;
     static DefaultTableModel dtm;
     JScrollPane stbl;
     JTable tbl;
-    String selectedCellKey;
+    static String selectedCellKey;
 
     CalendarService cs;
 
@@ -41,8 +41,9 @@ public class CalendarGUI {
         panelCenter = new JPanel();
         buttonNext = new JButton("Nastepny >>");
         buttonPrev = new JButton("<< Poprzedni");
-        buttonSave = new JButton("Zapisz / Uaktualnij");
+        buttonSave = new JButton("Zapisz");
         buttonDelete = new JButton("Usuń notatkę");
+        buttonUpdate = new JButton("Zaktualizuj");
         areaToSave = new JTextArea(1, 30);
         monthName = new JLabel();
         noteFromDay = new JLabel("<Notatka dnia>");
@@ -77,6 +78,7 @@ public class CalendarGUI {
         panelSouth.add(areaToSave);
         panelSouth.add(buttonSave);
         panelSouth.add(buttonDelete);
+        panelSouth.add(buttonUpdate);
 
         tbl.getParent().setBackground(tbl.getBackground());
         tbl.getTableHeader().setResizingAllowed(false);
@@ -91,11 +93,12 @@ public class CalendarGUI {
         buttonNext.addActionListener(createNextButtonListener());
         buttonSave.addActionListener(createSaveButtonListener());
         buttonDelete.addActionListener(createDeleteButtonListener());
+        buttonUpdate.addActionListener(createUpdateButtonListener());
 
         tbl.addMouseListener(createMouseListener());
 
-        window.setSize(700, 400);
-        window.setResizable(true);
+        window.setSize(650, 400);
+        window.setResizable(false);
         window.setVisible(true);
     }
 
@@ -160,6 +163,20 @@ public class CalendarGUI {
 
             public void mouseClicked(MouseEvent e) {
             }
+        };
+    }
+
+    private ActionListener createUpdateButtonListener() {
+        return e -> {
+            Integer numberOfSelectedCellKey = (Integer) dtm.getValueAt(tbl.getSelectedRow(), tbl.getSelectedColumn());
+            selectedCellKey = cs.nameOfMonth() + " " + dtm.getColumnName(tbl.getSelectedColumn()) + " " + numberOfSelectedCellKey;
+            if (!areaToSave.getText().isEmpty()) {
+                cs.update(selectedCellKey, areaToSave.getText());
+                noteFromDay.setText("Zaktualizowano");
+            } else {
+                noteFromDay.setText("Najpierw zapisz notatkę!");
+            }
+            areaToSave.setText("");
         };
     }
 

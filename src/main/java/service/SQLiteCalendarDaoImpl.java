@@ -19,15 +19,13 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
         try {
             Class.forName(SQLiteCalendarDaoImpl.DRIVER);
         } catch (ClassNotFoundException e) {
-            System.err.println("Brak sterownika JDBC");
-            e.printStackTrace();
+            System.err.println("Brak sterownika JDBC " + e.getMessage());
         }
         try {
             conn = DriverManager.getConnection(DB_URL);
             stat = conn.createStatement();
         } catch (SQLException e) {
-            System.err.println("Problem z otwarciem polaczenia");
-            e.printStackTrace();
+            System.err.println("Blad przy tworzeniu tabeli " + e.getMessage());
         }
         dropTables();
         createTables();
@@ -75,7 +73,7 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
         String note = "";
         try {
             ResultSet result = stat.executeQuery("SELECT * FROM notes WHERE date='" + keyDate + "'");
-            while(result.next()) {
+            while (result.next()) {
                 note = result.getString("note");
             }
         } catch (SQLException e) {
@@ -87,9 +85,23 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
 
     @Override
     public void update(String keyDate, String valueNote) {
+        try {
+            PreparedStatement prepStmt = conn.prepareStatement(
+                    "UPDATE notes SET note='" + valueNote +"' WHERE date='" + keyDate + "'");
+            prepStmt.execute();
+        } catch (SQLException e) {
+            System.err.println("Blad przy updatowaniu " + e.getSQLState());
+        }
     }
 
     @Override
     public void delete(String keyDate) {
+        try {
+            PreparedStatement prepStmt = conn.prepareStatement(
+                    "DELETE FROM notes WHERE date='" + keyDate +"'");
+            prepStmt.execute();
+        } catch (SQLException e) {
+            System.err.println("Blad przy updatowaniu " + e.getSQLState());
+        }
     }
 }
