@@ -7,19 +7,25 @@ import java.util.HashMap;
 public class MapCalendarDaoImpl implements ICalendarDao {
     HashMap<String, String> hashMap = new HashMap();
 
+    @Override
     public void create(CalendarNote calendarNote) {
-        hashMap.put(keyDate, valueNote);
+        hashMap.put(calendarNote.getDate(), calendarNote.getNote());
     }
 
+    @Override
     public CalendarNote read(String keyDate) {
-        return hashMap.get(keyDate);
+        CalendarNote cn = new CalendarNote();
+        cn.setDate(keyDate);
+        return cn;
     }
 
+    @Override
     public void update(CalendarNote calendarNote) {
-        hashMap.put(keyDate, valueNote);
+        hashMap.put(calendarNote.getDate(), calendarNote.getNote());
     }
 
+    @Override
     public void delete(CalendarNote calendarNote) {
-        hashMap.remove(keyDate);
+        hashMap.remove(calendarNote.getDate());
     }
 }

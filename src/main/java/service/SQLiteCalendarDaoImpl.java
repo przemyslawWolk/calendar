@@ -64,8 +64,8 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
         try {
             PreparedStatement prepStmt = conn.prepareStatement(
                     "insert into notes values (?, ?);");
-            prepStmt.setString(1, keyDate);
-            prepStmt.setString(2, valueNote);
+            prepStmt.setString(1, calendarNote.getDate());
+            prepStmt.setString(2, calendarNote.getNote());
             prepStmt.execute();
         } catch (SQLException e) {
             System.err.println("Blad przy wypozyczaniu " + e.getSQLState());
@@ -74,24 +74,26 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
 
     @Override
     public CalendarNote read(String keyDate) {
+        CalendarNote cn = null;
         String note = "";
         try {
             ResultSet result = stat.executeQuery("SELECT * FROM notes WHERE date='" + keyDate + "'");
             while (result.next()) {
                 note = result.getString("note");
+                cn = new CalendarNote(keyDate,note);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Blad przy odczytywaniu tresci " + e.getSQLState());
             return null;
         }
-        return note;
+        return cn;
     }
 
     @Override
     public void update(CalendarNote calendarNote) {
         try {
             PreparedStatement prepStmt = conn.prepareStatement(
-                    "UPDATE notes SET note='" + valueNote + "' WHERE date='" + keyDate + "'");
+                    "UPDATE notes SET note='" + calendarNote.getNote() + "' WHERE date='" + calendarNote.getDate() + "'");
             prepStmt.execute();
         } catch (SQLException e) {
             System.err.println("Blad przy updatowaniu " + e.getSQLState());
@@ -102,7 +104,7 @@ public class SQLiteCalendarDaoImpl implements ICalendarDao {
     public void delete(CalendarNote calendarNote) {
         try {
             PreparedStatement prepStmt = conn.prepareStatement(
-                    "DELETE FROM notes WHERE date='" + keyDate + "'");
+                    "DELETE FROM notes WHERE date='" + calendarNote.getDate() + "'");
             prepStmt.execute();
         } catch (SQLException e) {
             System.err.println("Blad przy updatowaniu " + e.getSQLState());

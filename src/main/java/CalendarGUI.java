@@ -1,4 +1,5 @@
 import components.TableCalendarRenderer;
+import models.CalendarNote;
 import service.MapCalendarDaoImpl;
 import service.CalendarService;
 import service.SQLiteCalendarDaoImpl;
@@ -34,7 +35,6 @@ public class CalendarGUI {
     CalendarService cs;
 
     public void createGUI() {
-        //service.MapCalendarDaoImpl dao = new service.MapCalendarDaoImpl();
         window = new JFrame("Calendar");
         panelNorth = new JPanel();
         panelSouth = new JPanel();
@@ -139,11 +139,11 @@ public class CalendarGUI {
                     tbl = (JTable) e.getSource();
                     Integer valueOfSelectedCell = (Integer) dtm.getValueAt(tbl.getSelectedRow(), tbl.getSelectedColumn());
                     String keyOfSelected = cs.nameOfMonth() + " " + dtm.getColumnName(tbl.getSelectedColumn()) + " " + valueOfSelectedCell;
-                    String note = cs.read(keyOfSelected);
-                    if (note == null) {
-                        note = "";
+                    CalendarNote cn = cs.read(keyOfSelected);
+                    if (cn == null) {
+                        cn.setNote("");
                     }
-                    String messageAboutSelected = keyOfSelected + " - " + note;
+                    String messageAboutSelected = cn.toString();
                     if (valueOfSelectedCell == (null)) {
                         noteFromDay.setText("");
                     } else {
@@ -171,7 +171,8 @@ public class CalendarGUI {
             Integer numberOfSelectedCellKey = (Integer) dtm.getValueAt(tbl.getSelectedRow(), tbl.getSelectedColumn());
             selectedCellKey = cs.nameOfMonth() + " " + dtm.getColumnName(tbl.getSelectedColumn()) + " " + numberOfSelectedCellKey;
             if (!areaToSave.getText().isEmpty()) {
-                cs.update(selectedCellKey, areaToSave.getText());
+                CalendarNote cn = new CalendarNote(selectedCellKey, areaToSave.getText());
+                cs.update(cn);
                 noteFromDay.setText("Zaktualizowano");
             } else {
                 noteFromDay.setText("Najpierw zapisz notatkę!");
@@ -182,7 +183,9 @@ public class CalendarGUI {
 
     private ActionListener createDeleteButtonListener() {
         return e -> {
-            cs.delete(selectedCellKey);
+            CalendarNote cn = new CalendarNote();
+            cn.setDate(selectedCellKey);
+            cs.delete(cn);
             noteFromDay.setText("Usunięto notatkę");
         };
     }
@@ -192,7 +195,8 @@ public class CalendarGUI {
             Integer numberOfSelectedCellKey = (Integer) dtm.getValueAt(tbl.getSelectedRow(), tbl.getSelectedColumn());
             selectedCellKey = cs.nameOfMonth() + " " + dtm.getColumnName(tbl.getSelectedColumn()) + " " + numberOfSelectedCellKey;
             if (!areaToSave.getText().isEmpty()) {
-                cs.create(selectedCellKey, areaToSave.getText());
+                CalendarNote cn = new CalendarNote(selectedCellKey, areaToSave.getText());
+                cs.create(cn);
                 noteFromDay.setText("Zapisano");
             } else {
                 noteFromDay.setText("Najpierw zapisz notatkę!");

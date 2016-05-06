@@ -1,5 +1,7 @@
 package service;
 
+import models.CalendarNote;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -17,20 +19,20 @@ public class CalendarService {
         this.calendarDao = calendarDao;
     }
 
-    public void create(String keyDate, String valueNote) {
-        calendarDao.create(keyDate, valueNote);
+    public void create(CalendarNote calendarNote) {
+        calendarDao.create(calendarNote);
     }
 
-    public String read(String keyDate) {
+    public CalendarNote read(String keyDate) {
         return calendarDao.read(keyDate);
     }
 
-    public void update(String keyDate, String valueNote) {
-        calendarDao.update(keyDate, valueNote);
+    public void update(CalendarNote calendarNote) {
+        calendarDao.update(calendarNote);
     }
 
-    public void delete(String keyDate) {
-        calendarDao.delete(keyDate);
+    public void delete(CalendarNote calendarNote) {
+        calendarDao.delete(calendarNote);
     }
 
     public String nameOfMonth() {
