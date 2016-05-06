@@ -16,6 +16,10 @@ public class MapCalendarDaoImpl implements ICalendarDao {
     public CalendarNote read(String keyDate) {
         CalendarNote cn = new CalendarNote();
         cn.setDate(keyDate);
+        cn.setNote(hashMap.get(keyDate));
+        if (cn.getNote() == null) {
+            cn = null;
+        }
         return cn;
     }
 

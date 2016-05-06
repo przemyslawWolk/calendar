@@ -140,10 +140,10 @@ public class CalendarGUI {
                     Integer valueOfSelectedCell = (Integer) dtm.getValueAt(tbl.getSelectedRow(), tbl.getSelectedColumn());
                     String keyOfSelected = cs.nameOfMonth() + " " + dtm.getColumnName(tbl.getSelectedColumn()) + " " + valueOfSelectedCell;
                     CalendarNote cn = cs.read(keyOfSelected);
-                    if (cn == null) {
-                        cn.setNote("");
+                    String messageAboutSelected = keyOfSelected;
+                    if (cn != null) {
+                        messageAboutSelected += " - " + cn.getNote();
                     }
-                    String messageAboutSelected = cn.toString();
                     if (valueOfSelectedCell == (null)) {
                         noteFromDay.setText("");
                     } else {

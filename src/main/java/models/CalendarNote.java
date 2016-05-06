@@ -4,7 +4,9 @@ public class CalendarNote {
     private String date;
     private String note;
 
-    public CalendarNote() {}
+    public CalendarNote() {
+    }
+
     public CalendarNote(String date, String note) {
         this.date = date;
         this.note = note;
@@ -27,6 +29,6 @@ public class CalendarNote {
     }
 
     public String toString() {
-        return "[" + date + "] - " + note;
+        return date + " " + note;
     }
 }
