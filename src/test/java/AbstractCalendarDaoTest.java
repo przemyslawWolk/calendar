@@ -17,9 +17,9 @@ public abstract class AbstractCalendarDaoTest {
     private static final String THIRD_VALUE = "przykladowa notateczka 3";
     private static final String THIRD_UPDATE = "zmieniona notateczka 3";
 
-    private static final CalendarNote FIRST_NOTE = new CalendarNote(FIRST_KEY, FIRST_VALUE);
-    private static final CalendarNote SECOND_NOTE = new CalendarNote(SECOND_KEY, SECOND_VALUE);
-    private static final CalendarNote THIRD_NOTE = new CalendarNote(THIRD_KEY, THIRD_VALUE);
+    protected static final CalendarNote FIRST_NOTE = new CalendarNote(FIRST_KEY, FIRST_VALUE);
+    protected static final CalendarNote SECOND_NOTE = new CalendarNote(SECOND_KEY, SECOND_VALUE);
+    protected static final CalendarNote THIRD_NOTE = new CalendarNote(THIRD_KEY, THIRD_VALUE);
 
     private static ICalendarDao dao;
 

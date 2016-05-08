@@ -1,5 +1,6 @@
 import components.TableCalendarRenderer;
 import models.CalendarNote;
+import service.HibernateCalendarDaoImpl;
 import service.MapCalendarDaoImpl;
 import service.CalendarService;
 import service.SQLiteCalendarDaoImpl;
@@ -47,7 +48,7 @@ public class CalendarGUI {
         areaToSave = new JTextArea(1, 30);
         monthName = new JLabel();
         noteFromDay = new JLabel("<Notatka dnia>");
-        cs = new CalendarService(new SQLiteCalendarDaoImpl());
+        cs = new CalendarService(new HibernateCalendarDaoImpl());
         dtm = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int mColIndex) {
                 return false;
