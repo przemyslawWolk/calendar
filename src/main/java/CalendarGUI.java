@@ -1,5 +1,8 @@
 import components.TableCalendarRenderer;
 import models.CalendarNote;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import service.HibernateCalendarDaoImpl;
 import service.MapCalendarDaoImpl;
 import service.CalendarService;
@@ -32,7 +35,6 @@ public class CalendarGUI {
     JScrollPane stbl;
     JTable tbl;
     static String selectedCellKey;
-
     CalendarService cs;
 
     public void createGUI() {
@@ -48,7 +50,7 @@ public class CalendarGUI {
         areaToSave = new JTextArea(1, 30);
         monthName = new JLabel();
         noteFromDay = new JLabel("<Notatka dnia>");
-        cs = new CalendarService(new HibernateCalendarDaoImpl());
+        //cs = new CalendarService(new HibernateCalendarDaoImpl());
         dtm = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int mColIndex) {
                 return false;
@@ -56,6 +58,9 @@ public class CalendarGUI {
         };
         tbl = new JTable(dtm);
         stbl = new JScrollPane(tbl);
+
+        ApplicationContext appContext = new FileSystemXmlApplicationContext("C:/Users/Pzmg/Desktop/Java projects/Calendar/Spring.xml");
+        cs = (CalendarService) appContext.getBean("CService");
 
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panelNorth.setBackground(Color.GRAY);
