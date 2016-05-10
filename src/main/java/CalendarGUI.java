@@ -1,3 +1,4 @@
+import components.CalendarLogging;
 import components.TableCalendarRenderer;
 import models.CalendarNote;
 import org.springframework.context.ApplicationContext;
@@ -36,6 +37,7 @@ public class CalendarGUI {
     JTable tbl;
     static String selectedCellKey;
     CalendarService cs;
+    CalendarLogging cl;
 
     public void createGUI() {
         window = new JFrame("Calendar");
@@ -50,7 +52,7 @@ public class CalendarGUI {
         areaToSave = new JTextArea(1, 30);
         monthName = new JLabel();
         noteFromDay = new JLabel("<Notatka dnia>");
-        //cs = new CalendarService(new HibernateCalendarDaoImpl());
+        cs = new CalendarService(new HibernateCalendarDaoImpl());
         dtm = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int mColIndex) {
                 return false;
@@ -58,6 +60,7 @@ public class CalendarGUI {
         };
         tbl = new JTable(dtm);
         stbl = new JScrollPane(tbl);
+        cl = new CalendarLogging("Calendar logs");
 
         ApplicationContext appContext = new FileSystemXmlApplicationContext("C:/Users/Pzmg/Desktop/Java projects/Calendar/Spring.xml");
         cs = (CalendarService) appContext.getBean("CService");
@@ -184,6 +187,7 @@ public class CalendarGUI {
                 noteFromDay.setText("Najpierw zapisz notatkę!");
             }
             areaToSave.setText("");
+            cl.sendLog("Update button clicked");
         };
     }
 
@@ -193,6 +197,7 @@ public class CalendarGUI {
             cn.setDate(selectedCellKey);
             cs.delete(cn);
             noteFromDay.setText("Usunięto notatkę");
+            cl.sendLog("Delete button clicked");
         };
     }
 
@@ -208,6 +213,7 @@ public class CalendarGUI {
                 noteFromDay.setText("Najpierw zapisz notatkę!");
             }
             areaToSave.setText("");
+            cl.sendLog("Save button clicked");
         };
     }
 
